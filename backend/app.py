@@ -6,14 +6,9 @@ from tensorflow import keras
 import numpy as np
 import pickle
 
-app = Flask(__name__, template_folder='build', static_folder='build/static')
+app = Flask(__name__)
 
 CORS(app)
-
-@app.route('/')
-def home():
-    template = 'index.html'
-    return render_template(template)
 
 @app.route('/api/predict-ckd-hybrid/', methods=['POST'])
 @cross_origin()
