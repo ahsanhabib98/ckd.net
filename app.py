@@ -1,14 +1,19 @@
 from operator import rshift
 from tkinter.tix import Tree
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS, cross_origin
 from tensorflow import keras
 import numpy as np
 import pickle
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='build', static_folder='build/static')
 
 CORS(app)
+
+@app.route('/')
+def home():
+    template = 'index.html'
+    return render_template(template)
 
 @app.route('/api/predict-ckd-hybrid/', methods=['POST'])
 @cross_origin()
