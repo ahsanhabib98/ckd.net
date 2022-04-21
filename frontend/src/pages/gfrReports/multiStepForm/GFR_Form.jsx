@@ -121,7 +121,7 @@ function MultiStepForm() {
 
             <ul className="result-body">
               <li>
-                <p>Predicted eGFR </p> <p> {outputs.GFR}</p>
+                <p>Predicted eGFR </p> <p> {outputs.GFR}.toFixed(2)</p>
               </li>
             </ul>
           </div>

@@ -24,7 +24,7 @@ def predict_ckd_hybrid_model():
     result = model.predict(scaler_inputs)
     payload = {}
     for i, value in enumerate(result[0]):
-        payload["Stage {}".format(i+1)] = str(value)
+        payload["Stage {}".format(i+1)] = str(round(value, 2))
     print(payload)
     return jsonify(payload)
 
@@ -40,7 +40,7 @@ def predict_ckd_gfr_model():
     model = pickle.load(open('ckd_gfr/ckd_gfr_model.pkl', 'rb'))
     result = model.predict(scaler_inputs)
     payload = {
-        "GFR": str(result[0][0])
+        "GFR": str(round(result[0][0], 2))
     }
     return jsonify(payload)
 

@@ -36,6 +36,7 @@ docker-compose up
 After waiting for while, visit following urls:
 
 * UI: http://localhost:3000
+* API documentation: [API collection](https://documenter.getpostman.com/view/8714749/UyrADvrS)
 
 ## Git branching model
 I follow Git Flow as my branching model.

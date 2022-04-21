@@ -125,7 +125,7 @@ function MultiStepForm() {
               </li>
               {Object.entries(outputs).map(([key, value], i) => (
                 <li key={key}>
-                  <p> stage {i+1} </p> <p> {value}</p>
+                  <p> stage {i+1} </p> <p> {value}.toFixed(2)</p>
                 </li>
               ))}
             </ul>
