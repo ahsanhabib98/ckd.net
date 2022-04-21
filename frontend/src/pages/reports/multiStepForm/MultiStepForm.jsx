@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
-import { Table } from 'react-bootstrap';
+import React, { useState } from "react";
 import axios from "axios";
-import StepOne from './StepOne';
-import StepTwo from './StepTwo';
+import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
 
-import { ckdHybridURL } from '../../../constants';
+import { ckdHybridURL, ckdGFRURL } from "../../../constants";
 
 function MultiStepForm() {
-
   const [values, setValues] = useState({
     sex: "",
     age: "",
@@ -38,27 +36,30 @@ function MultiStepForm() {
     gfr: "",
   });
 
-  const [outputs, setOutputs] = useState();
-
   const [step, setStep] = useState(1);
 
   const handlePredictCKDHybrid = (payload) => {
+    // console.log("Main State: ", payload);
+
+    const config = {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    };
     axios
-      .post(ckdHybridURL, payload)
-      .then(res => {
-        const { data } = res;
-        setOutputs(data);
+      .post(ckdHybridURL, payload, config)
+      .then((res) => {
+        console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const nextStep = () => {
     if (step < 2) {
       setStep(step + 1);
-    } else if(step === 2) {
-        handlePredictCKDHybrid(values);
+    } else if (step === 2) {
+      // console.log(values);
+      // handlePredictCKDHybrid(values);
     }
   };
 
@@ -73,13 +74,21 @@ function MultiStepForm() {
   };
 
   return (
-   <div className="multi-step-form">
+    <div className="multi-step-form">
       <div className="card mt-4 mb-5 m-auto b-radious-8">
         <div className="card-header d-flex text-center p-0">
-          <p className={`w-100 text-capitalize px-3 py-4 d-flex align-items-center justify-content-center ${step === 1 && "active"}`}>
+          <p
+            className={`w-100 text-capitalize px-3 py-4 d-flex align-items-center justify-content-center ${
+              step === 1 && "active"
+            }`}
+          >
             Clinico-physiological parameters
           </p>
-          <p className={`w-100 text-capitalize px-3 py-4 d-flex align-items-center justify-content-center ${step === 2 && "active"}`}>
+          <p
+            className={`w-100 text-capitalize px-3 py-4 d-flex align-items-center justify-content-center ${
+              step === 2 && "active"
+            }`}
+          >
             Biochemical parameters
           </p>
         </div>
@@ -87,46 +96,56 @@ function MultiStepForm() {
         <div className="card-body p-4">
           {
             {
-              1: <StepOne handleChange={handleChange} />,
-              2: <StepTwo handleChange={handleChange} />,
+              1: (
+                <StepOne
+                  handleChange={handleChange}
+                  nextStep={nextStep}
+                  value={values}
+                />
+              ),
+              2: (
+                <StepTwo
+                  handleChange={handleChange}
+                  prevStep={prevStep}
+                  handlePredictCKDHybrid={handlePredictCKDHybrid}
+                  values={values}
+                />
+              ),
             }[step]
           }
-
-          <div className="d-flex justify-content-around mt-4">
-            {step > 1 ? (
-              <button className="btn btn-secondary w-100 me-2" onClick={prevStep}>
-                Previous
-              </button>
-            ) : null}
-            <button className="btn primaryRed text-white w-100" onClick={nextStep}>
-              {step === 2 ? "Submit" : "Next"}
-            </button>
-          </div>
         </div>
-      </div>
-      {outputs ? (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Stage</th>
-              <th>Probability</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(outputs).map(([key, value], i) => (
-              <tr key={key}>
-                <td>{i+1}</td>
-                <td>{key}</td>
-                <td>{value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      ) : ''}
-    </div>
 
-  )
+        {/* Show Prediction Result */}
+        <div className="result border-top">
+          <div className="result-header text-center pb-3 mb-2">
+            <h3>Prediction Result</h3>
+          </div>
+
+          <ul className="result-body">
+            <li>
+              <p> stage </p> <p> Probability</p>
+            </li>
+            <li>
+              <p> stage I </p> <p> 35.09</p>
+            </li>
+            <li>
+              <p> stage II </p> <p> 35.09</p>
+            </li>
+            <li>
+              <p> stage III </p> <p> 35.09</p>
+            </li>
+            <li>
+              <p> stage IV </p> <p> 35.09</p>
+            </li>
+            <li>
+              <p> stage V </p> <p> 35.09</p>
+            </li>
+          </ul>
+        </div>
+        {/* Show Prediction Result */}
+      </div>
+    </div>
+  );
 }
 
-export default MultiStepForm
+export default MultiStepForm;

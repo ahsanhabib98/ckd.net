@@ -9,16 +9,15 @@
 
 :root {
   --primaryBlue: #6078e9;
-  --primaryRed: #F06060;
+  /* --primaryRed: #F06060; */
+  --primaryRed: #6078e9;
   --secondaryBlue: #00b0ff;
   --darkColor: #292d32;
   --textColor: #585a66;
   --bgColor: #f1f6fd;
   --borderColor: #dddddd;
   --whiteColor: #ffffff;
-  --gradientRed: linear-gradient(
-    180deg, #F06060 0%, #FFDCDC 100%
-  );
+  --gradientRed: linear-gradient(180deg, #f06060 0%, #ffdcdc 100%);
   --gradientColor: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -147,6 +146,7 @@ button,
 
 .navbar a.navbar-brand h4 {
   color: var(--primaryRed);
+  font-size: 28px;
 }
 
 .navbar.active a.navbar-brand h4 {
@@ -247,7 +247,7 @@ button,
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #4563F1 0%, #B8C3FF 100%);
+  background: linear-gradient(90deg, #4563f1 0%, #b8c3ff 100%);
   /* background: linear-gradient(90deg, #F06060 0%, #FFDCDC 100%); */
   /* background: linear-gradient(90deg, #F06060 0%, #FFDCDC 100%); */
   /* box-shadow: 0 30px 32px -30px rgb(0 55 253 / 60%); */
@@ -529,6 +529,53 @@ span.input-group-text {
 .custom-group .form-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+/* ========================================= */
+
+.result {
+  padding: 30px;
+}
+
+.result ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 8px;
+  border: 4px solid rgba(96, 120, 233, 0.2);
+}
+
+.result ul li {
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  display: flex;
+}
+
+.result ul li:first-child {
+  background: rgba(96, 120, 233, 0.2);
+}
+
+/* .result ul li:nth-child(even) {
+  background: rgba(96, 120, 233, 0.1);
+} */
+
+.result ul li:last-child {
+  border-bottom: 0;
+}
+
+.result ul li p {
+  flex-basis: 50%;
+  text-transform: capitalize;
+  font-weight: bold;
+  line-height: 48px;
+  padding: 0 20px;
+  font-size: 17px;
+}
+
+.result ul li p:first-child {
+  border-right: 1px solid #ddd;
+  color: var(--primaryBlue);
+  text-transform: uppercase;
 }
 
 /* ========================================= */

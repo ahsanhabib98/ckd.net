@@ -1,38 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, InputGroup, Row } from "react-bootstrap";
 
-const StepTwo = ({ handleChange }) => {
-  return (
-    <div className="">
-      {/* <h2>Contact Info</h2> */}
+const StepTwo = ({
+  handleChange,
+  prevStep,
+  values,
+  handlePredictCKDHybrid,
+}) => {
+  //creating error state for validation
+  const [validated, setValidated] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
 
+  // after form submit validating the form data using validator
+  const submitFormData = (e) => {
+    e.preventDefault();
+
+    // console.log("Step Two: ", values);
+
+    // Pass submitted data to parent component
+    handlePredictCKDHybrid(values);
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+
+    if (validated) {
+      setDisabled(true);
+    }
+
+    setValidated(true);
+  };
+
+  return (
+    <Form noValidate validated={validated} onSubmit={submitFormData}>
       <fieldset className="mt-2">
         <legend>Renal function test</legend>
-
-         <Row>
+        <Row>
           <Col md={6}>
             <Form.Group className="">
               <Form.Label className="mb-1"> Urine protein </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("olig_prote_cd")}
                   name="olig_prote_cd"
                 />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
-          </Col>          
+          </Col>
           <Col md={6}>
             <Form.Group className="mt-sm-20">
               <Form.Label className="mb-1"> creatinine </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("creatinine")}
                   name="creatinine"
                 />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -41,17 +76,21 @@ const StepTwo = ({ handleChange }) => {
       <fieldset>
         <legend>Liver function test</legend>
 
-         <Row>
-          <Col md={6}>            
+        <Row>
+          <Col md={6}>
             <Form.Group className="mt-3">
               <Form.Label className="mb-1"> SGOT(AST) </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("sgot_ast")}
                   name="sgot_ast"
                 />
                 <InputGroup.Text>IU/L</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -60,11 +99,15 @@ const StepTwo = ({ handleChange }) => {
               <Form.Label className="mb-1"> SGPT(ALT) </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("sgpt_alt")}
                   name="sgpt_alt"
                 />
                 <InputGroup.Text>IU/L</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -73,11 +116,15 @@ const StepTwo = ({ handleChange }) => {
               <Form.Label className="mb-1"> GAMMA(GTP) </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("gamma_gtp")}
                   name="gamma_gtp"
                 />
                 <InputGroup.Text>IU/dL</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -86,17 +133,21 @@ const StepTwo = ({ handleChange }) => {
       <fieldset>
         <legend>Lipid profile</legend>
 
-         <Row>
+        <Row>
           <Col md={6}>
             <Form.Group>
               <Form.Label className="mb-1"> Total cholesterol </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("tot_chole")}
                   name="tot_chole"
                 />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -105,11 +156,15 @@ const StepTwo = ({ handleChange }) => {
               <Form.Label className="mb-1"> Triglycerides </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("triglyceride")}
                   name="triglyceride"
                 />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -117,12 +172,16 @@ const StepTwo = ({ handleChange }) => {
             <Form.Group className="mt-3">
               <Form.Label className="mb-1"> HDL cholesterol </Form.Label>
               <InputGroup>
-                  <Form.Control
-                    // placeholder="First Name"
-                    onChange={handleChange("hdl_chole")}
-                    name="hdl_chole"
-                  />
+                <Form.Control
+                  required
+                  onChange={handleChange("hdl_chole")}
+                  name="hdl_chole"
+                />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -131,11 +190,15 @@ const StepTwo = ({ handleChange }) => {
               <Form.Label className="mb-1"> LDL cholesterol </Form.Label>
               <InputGroup>
                 <Form.Control
-                  // placeholder="First Name"
+                  required
                   onChange={handleChange("ldl_chole")}
                   name="ldl_chole"
                 />
                 <InputGroup.Text>mg/dl</InputGroup.Text>
+
+                <Form.Control.Feedback type="invalid">
+                  This is a required field
+                </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Col>
@@ -143,16 +206,16 @@ const StepTwo = ({ handleChange }) => {
       </fieldset>
       <fieldset>
         <legend>Haematological test</legend>
-         
+
         <Form.Group className="">
           <Form.Label className="mb-1"> Hemoglobin </Form.Label>
-           <InputGroup>
-            <Form.Control
-              // placeholder="First Name"
-              onChange={handleChange("hmg")}
-              name="hmg"
-            />
+          <InputGroup>
+            <Form.Control required onChange={handleChange("hmg")} name="hmg" />
             <InputGroup.Text>mg/dl</InputGroup.Text>
+
+            <Form.Control.Feedback type="invalid">
+              This is a required field
+            </Form.Control.Feedback>
           </InputGroup>
         </Form.Group>
       </fieldset>
@@ -161,17 +224,38 @@ const StepTwo = ({ handleChange }) => {
 
         <Form.Group className="">
           <Form.Label className="mb-1"> Blood sugar </Form.Label>
-           <InputGroup>
-              <Form.Control
-                // placeholder="First Name"
-                onChange={handleChange("blds")}
-                name="blds"
-              />
-                <InputGroup.Text>mg/dl</InputGroup.Text>
-              </InputGroup>
+          <InputGroup>
+            <Form.Control
+              required
+              onChange={handleChange("blds")}
+              name="blds"
+            />
+            <InputGroup.Text>mg/dl</InputGroup.Text>
+
+            <Form.Control.Feedback type="invalid">
+              This is a required field
+            </Form.Control.Feedback>
+          </InputGroup>
         </Form.Group>
       </fieldset>
-    </div>
+
+      <div className="d-flex justify-content-around mt-4">
+        <button
+          className="btn btn-secondary w-100 me-2"
+          type="button"
+          onClick={prevStep}
+        >
+          Previous
+        </button>
+        <button
+          className="btn primaryRed text-white w-100"
+          disabled={isDisabled}
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </Form>
   );
 };
 
