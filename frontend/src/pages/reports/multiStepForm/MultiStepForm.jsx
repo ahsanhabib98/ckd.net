@@ -36,20 +36,18 @@ function MultiStepForm() {
     gfr: "",
   });
 
+  const [outputs, setOutputs] = useState();
+
   const [step, setStep] = useState(1);
 
   const handlePredictCKDHybrid = (payload) => {
-    // console.log("Main State: ", payload);
-
-    const config = {
-      headers: { "Access-Control-Allow-Origin": "*" },
-    };
     axios
-      .post(ckdHybridURL, payload, config)
-      .then((res) => {
-        console.log(res);
+      .post(ckdHybridURL, payload)
+      .then(res => {
+        const { data } = res;
+        setOutputs(data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -58,8 +56,7 @@ function MultiStepForm() {
     if (step < 2) {
       setStep(step + 1);
     } else if (step === 2) {
-      // console.log(values);
-      // handlePredictCKDHybrid(values);
+      handlePredictCKDHybrid(values);
     }
   };
 
@@ -116,32 +113,24 @@ function MultiStepForm() {
         </div>
 
         {/* Show Prediction Result */}
-        <div className="result border-top">
-          <div className="result-header text-center pb-3 mb-2">
-            <h3>Prediction Result</h3>
-          </div>
+        {outputs && (
+          <div className="result border-top">
+            <div className="result-header text-center pb-3 mb-2">
+              <h3>Prediction Result</h3>
+            </div>
 
-          <ul className="result-body">
-            <li>
-              <p> stage </p> <p> Probability</p>
-            </li>
-            <li>
-              <p> stage I </p> <p> 35.09</p>
-            </li>
-            <li>
-              <p> stage II </p> <p> 35.09</p>
-            </li>
-            <li>
-              <p> stage III </p> <p> 35.09</p>
-            </li>
-            <li>
-              <p> stage IV </p> <p> 35.09</p>
-            </li>
-            <li>
-              <p> stage V </p> <p> 35.09</p>
-            </li>
-          </ul>
-        </div>
+            <ul className="result-body">
+              <li>
+                <p> stage </p> <p> Probability Score</p>
+              </li>
+              {Object.entries(outputs).map(([key, value], i) => (
+                <li key={key}>
+                  <p> stage {i+1} </p> <p> {value}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {/* Show Prediction Result */}
       </div>
     </div>

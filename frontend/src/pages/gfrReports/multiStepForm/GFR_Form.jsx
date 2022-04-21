@@ -35,18 +35,19 @@ function MultiStepForm() {
     mbi: "",
   });
 
+  const [outputs, setOutputs] = useState();
+
   const [step, setStep] = useState(1);
 
   const handlePredictCKDHybrid = (payload) => {
-    const config = {
-      headers: { "Access-Control-Allow-Origin": "*" },
-    };
     axios
-      .post(ckdHybridURL, payload, config)
-      .then((res) => {
-        console.log(res);
+      .post(ckdGFRURL, payload)
+      .then(res => {
+        const {data} = res;
+        console.log(data);
+        setOutputs(data);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -54,9 +55,8 @@ function MultiStepForm() {
   const nextStep = () => {
     if (step < 2) {
       setStep(step + 1);
-    } else if (step === 2) {
-      // console.log(values);
-      // handlePredictCKDHybrid(values);
+    } else if(step === 2) {
+        handlePredictCKDHybrid(values);
     }
   };
 
@@ -113,20 +113,19 @@ function MultiStepForm() {
         </div>
 
         {/* Show Prediction Result */}
-        <div className="result border-top">
-          <div className="result-header text-center pb-3 mb-2">
-            <h3>Prediction Result</h3>
-          </div>
+        {outputs ? (
+          <div className="result border-top">
+            <div className="result-header text-center pb-3 mb-2">
+              <h3>Prediction Result</h3>
+            </div>
 
-          <ul className="result-body">
-            <li>
-              <p> stage </p> <p> Probability</p>
-            </li>
-            <li>
-              <p> stage 1 </p> <p> 35.09</p>
-            </li>
-          </ul>
-        </div>
+            <ul className="result-body">
+              <li>
+                <p>Predicted eGFR </p> <p> {outputs.GFR}</p>
+              </li>
+            </ul>
+          </div>
+        ) : ''}
         {/* Show Prediction Result */}
       </div>
     </div>
